@@ -1,0 +1,107 @@
+[
+  {
+    "id": 1,
+    "event_type": "broken_item",
+    "priority": "high",
+    "description": "Broken decoration piece on the gift table",
+    "timestamp": 0.1
+  },
+  {
+    "id": 2,
+    "event_type": "brawl",
+    "priority": "medium",
+    "description": "A brawl broke out near the bar area",
+    "timestamp": 1.6
+  },
+  {
+    "id": 3,
+    "event_type": "brawl",
+    "priority": "high",
+    "description": "A brawl broke out near the bar area",
+    "timestamp": 5.2
+  },
+  {
+    "id": 4,
+    "event_type": "feeling_ill",
+    "priority": "low",
+    "description": "Guest feeling nauseous after eating too much cake",
+    "timestamp": 7.4
+  },
+  {
+    "id": 5,
+    "event_type": "feeling_ill",
+    "priority": "low",
+    "description": "Guest feeling faint after dancing too long",
+    "timestamp": 14.0
+  },
+  {
+    "id": 6,
+    "event_type": "dirty_table",
+    "priority": "high",
+    "description": "Coffee stain on the rental linens at table 8",
+    "timestamp": 23.8
+  },
+  {
+    "id": 7,
+    "event_type": "feeling_ill",
+    "priority": "low",
+    "description": "Guest feeling nauseous after eating too much cake",
+    "timestamp": 24.5
+  },
+  {
+    "id": 8,
+    "event_type": "bad_food",
+    "priority": "high",
+    "description": "Undercooked chicken served at table 3",
+    "timestamp": 24.7
+  },
+  {
+    "id": 9,
+    "event_type": "feeling_ill",
+    "priority": "medium",
+    "description": "Guest feeling faint after dancing too long",
+    "timestamp": 27.2
+  },
+  {
+    "id": 10,
+    "event_type": "feeling_ill",
+    "priority": "low",
+    "description": "Guest feeling faint after dancing too long",
+    "timestamp": 35.8
+  },
+  {
+    "id": 11,
+    "event_type": "not_on_list",
+    "priority": "low",
+    "description": "Someone claiming to be a plus-one but not on the list",
+    "timestamp": 41.9
+  },
+  {
+    "id": 12,
+    "event_type": "brawl",
+    "priority": "low",
+    "description": "Two guests arguing loudly at table 7",
+    "timestamp": 42.0
+  },
+  {
+    "id": 13,
+    "event_type": "broken_item",
+    "priority": "low",
+    "description": "Broken decoration piece on the gift table",
+    "timestamp": 43.4
+  },
+  {
+    "id": 14,
+    "event_type": "feeling_ill",
+    "priority": "low",
+    "description": "Guest feeling nauseous after eating too much cake",
+    "timestamp": 46.0
+  },
+  {
+    "id": 15,
+    "event_type": "bad_food",
+    "priority": "medium",
+    "description": "Missing vegan option for guests at table 9",
+    "timestamp": 46.6
+  }
+]
