@@ -88,6 +88,23 @@
   1. Source code in a repository with build/run instructions.
   2. Console output showing: event received/dispatched/handled/expired log lines, and the final stress summary.
 
+## Running the Notebook
+
+This project is provided as a Jupyter Notebook with three predefined scenarios:
+
+- `events_easy.json`
+- `events_medium.json`
+- `events_hard.json`
+
+Each scenario is executed in a separate notebook cell.
+
+### Important
+
+- If running in **Google Colab**, execute the **first setup cell** to ensure file paths are correctly configured.
+- If running locally (Jupyter Notebook), **skip the first cell** and run the scenario cells directly.
+
+The output for each scenario is already included in the notebook.
+
 ## Learning Outcomes
 
   - Asynchronous event dispatching and routing by type.
