@@ -1,112 +1,172 @@
-# Engineering Lab - Marry Me
+# Engineering Lab -- Marry Me
 
-## Problem Statement
+## Overview
 
-  Your best friend is getting married and put you in charge of coordination. Build a small event-driven simulation that receives wedding
-   incidents, routes them to the right team, and tracks guest stress when events go unhandled.
+This project implements an event-driven wedding simulation where
+incidents occur over time and must be handled by limited staff within
+deadline constraints.
 
-  Objective
+The system:
 
-  Design and implement a simulation that receives events, dispatches them to teams based on type, and handles them with available
-  workers — all within time constraints.
+-   Receives events from JSON input files
+-   Routes events to the correct team
+-   Processes events concurrently using worker pools (`asyncio`)
+-   Enforces priority-based deadlines
+-   Tracks stress caused by delayed or expired events
 
-## Solution Overview
+This lab demonstrates asynchronous dispatching, deadline-aware
+scheduling, and proper Python project structuring.
 
-  1. Coordinator — Receives and validates incoming events, then forwards them to the appropriate team.
-  2. Teams — Each team has a fixed pool of workers. When an event arrives, the team assigns an idle worker. If no worker is available,
-  the event waits in a queue.
-  3. Stress Tracking — If an event is not handled before its priority deadline expires, it is discarded and the global stress level
-  increments by 1.
+------------------------------------------------------------------------
 
-## Entities
+## Project Structure
 
-  **Workers**
-  - current_status: Idle | Working
-  - Handling an event takes 3 seconds, then the worker returns to Idle.
+    eng_labs_marry_me/
+    ├── src/
+    │   └── marry_me/
+    │       ├── __init__.py
+    │       ├── constants.py
+    │       ├── models.py
+    │       ├── logic.py
+    │       └── simulation_async.py
+    ├── tests/
+    │   ├── test_logic.py
+    │   └── test_routing.py
+    ├── data/
+    │   ├── events_easy.json
+    │   ├── events_medium.json
+    │   └── events_hard.json
+    ├── notebooks/
+    │   └── marry_me.ipynb
+    ├── scripts/
+    │   └── generate_datasets.py
+    ├── docs/
+    │   └── Engineering_lab_4 - Marry Me - Lite.pdf
+    ├── pyproject.toml
+    ├── Makefile
+    ├── .gitignore
+    └── README.md
 
-  Teams (3 total, each with 2 workers)
-  ┌──────────┬──────────────────────────┐
-  │   Team   │   Handles event types    │
-  ├──────────┼──────────────────────────┤
-  │ Security │ brawl, not_on_list       │
-  ├──────────┼──────────────────────────┤
-  │ Catering │ bad_food, feeling_ill    │
-  ├──────────┼──────────────────────────┤
-  │ Waiters  │ dirty_table, broken_item │
-  └──────────┴──────────────────────────┘
-  
-  **Events**
-  ```
-  event {
-      id: int,
-      event_type: string,       // must match a known type above
-      priority: high | medium | low,
-      description: string,
-      timestamp: float           // seconds since simulation start
-  }
-  ```
+The project follows the src-layout best practice for Python packaging.
 
-  Priority deadlines (from event timestamp):
-  ┌──────────┬────────────┐
-  │ Priority │  Deadline  │
-  ├──────────┼────────────┤
-  │ High     │ 5 seconds  │
-  ├──────────┼────────────┤
-  │ Medium   │ 10 seconds │
-  ├──────────┼────────────┤
-  │ Low      │ 15 seconds │
-  └──────────┴────────────┘
-  
-  **Simulation** 
-  - The simulation runs for 60 seconds.
-  - Events are provided as a JSON array (input file), each with a timestamp indicating when it arrives.
-  - At the end, print:
-    - Total events received
-    - Total events handled
-    - Total events expired
-    - Final stress level (= number of expired events)
+------------------------------------------------------------------------
 
-  Example Input (events.json)
+## Setup (Cross-Platform)
 
-  [
-    {"id": 1, "event_type": "brawl", "priority": "high", "description": "fight near the bar", "timestamp": 2.0},
-    {"id": 2, "event_type": "bad_food", "priority": "medium", "description": "cold soup", "timestamp": 3.0},
-    {"id": 3, "event_type": "dirty_table", "priority": "low", "description": "table 5 is a mess", "timestamp": 4.0},
-    {"id": 4, "event_type": "brawl", "priority": "high", "description": "another fight", "timestamp": 5.0},
-    {"id": 5, "event_type": "feeling_ill", "priority": "high", "description": "guest fainted", "timestamp": 5.5}
-  ]
+### 1. Create Virtual Environment
 
-## Constraints
+**Linux / macOS**
 
-  - Language: Python, Go, Node.js, Java, Ruby, or Rust.
-  - No external message brokers required — in-process queues are fine.
-  - Events must be processed asynchronously (use threads, goroutines, async/await, etc.).
-  - Invalid event_type values should be logged and skipped.
+``` bash
+python3 -m venv .venv
+```
 
-## Deliverables
+**Windows**
 
-  1. Source code in a repository with build/run instructions.
-  2. Console output showing: event received/dispatched/handled/expired log lines, and the final stress summary.
+``` bash
+python -m venv .venv
+```
 
-## Running the Notebook
+------------------------------------------------------------------------
 
-This project is provided as a Jupyter Notebook with three predefined scenarios:
+### 2. Activate Virtual Environment
 
-- `events_easy.json`
-- `events_medium.json`
-- `events_hard.json`
+**Linux / macOS**
 
-Each scenario is executed in a separate notebook cell.
+``` bash
+source .venv/bin/activate
+```
 
-### Important
+**Windows (PowerShell)**
 
-- If running in **Google Colab**, execute the **first setup cell** to ensure file paths are correctly configured.
-- If running locally (Jupyter Notebook), **skip the first cell** and run the scenario cells directly.
+``` bash
+.\.venv\Scripts\Activate
+```
 
-The output for each scenario is already included in the notebook.
+------------------------------------------------------------------------
+
+### 3. Install Dependencies
+
+``` bash
+pip install -U pip
+pip install pytest
+pip install -e .
+```
+
+------------------------------------------------------------------------
+
+## Run Simulation (CLI)
+
+``` bash
+python -m marry_me.simulation_async data/events_easy.json
+```
+
+Available datasets:
+
+-   data/events_easy.json
+-   data/events_medium.json
+-   data/events_hard.json
+
+------------------------------------------------------------------------
+
+## Run Tests
+
+``` bash
+pytest -q
+```
+
+Tests validate:
+
+-   Event routing logic
+-   Deadline classification logic
+-   Error handling
+
+------------------------------------------------------------------------
+
+## Run with Makefile (Optional)
+
+``` bash
+make install
+make test
+make run-easy
+make run-medium
+make run-hard
+```
+
+------------------------------------------------------------------------
+
+## Notebook Usage
+
+Notebook location:
+
+    notebooks/marry_me.ipynb
+
+-   Open in VS Code or Jupyter
+-   Select the `.venv` interpreter
+-   Run cells directly
+
+No special setup cell is required for local execution.
+
+------------------------------------------------------------------------
+
+## Event Classification
+
+Each event is classified as:
+
+-   Handled On Time -- Finished before deadline
+-   Delayed -- Finished after deadline
+-   Expired -- Started after deadline
+-   Leftover -- Still waiting when simulation ends
+
+Stress increases for delayed and expired events.
+
+------------------------------------------------------------------------
 
 ## Learning Outcomes
 
-  - Asynchronous event dispatching and routing by type.
-  - Worker pool management with concurrency primitives.
-  - Time-based expiration logic under constrained resources.
+-   Asynchronous event-driven architecture
+-   Worker pool concurrency
+-   Deadline-aware scheduling
+-   Clean Python project structure
+-   Unit testing with pytest
+-   Virtual environment best practices
