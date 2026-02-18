@@ -47,8 +47,6 @@ scheduling, and proper Python project structuring.
     ├── .gitignore
     └── README.md
 
-The project follows the src-layout best practice for Python packaging.
-
 ------------------------------------------------------------------------
 
 ## Setup (Cross-Platform)
