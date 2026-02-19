@@ -17,6 +17,24 @@ The system:
 This lab demonstrates asynchronous dispatching, deadline-aware
 scheduling, and proper Python project structuring.
 
+```mermaid
+flowchart TB
+  A[JSON Events] --> B[Coordinator]
+
+  B --> Q1[Security Queue]
+  B --> Q2[Catering Queue]
+  B --> Q3[Waiters Queue]
+
+  Q1 --> W1[Security Workers]
+  Q2 --> W2[Catering Workers]
+  Q3 --> W3[Waiters Workers]
+
+  W1 --> M[Metrics]
+  W2 --> M
+  W3 --> M
+
+  M --> Z[Summary]
+```
 ------------------------------------------------------------------------
 
 ## Project Structure
